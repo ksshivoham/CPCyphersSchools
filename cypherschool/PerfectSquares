@@ -1,0 +1,28 @@
+class Solution {
+    public int numSquares(int n) {
+        int[] squares = getPerfectSquares(n);        
+        
+        int[] dp = new int[n+1];
+        for(int i = 1; i <= n; i++) {
+            dp[i] = n + 1;
+            for(int square : squares) {
+                if(square <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - square] + 1);
+                }
+            }
+        }
+        
+        return dp[n];
+    }
+    
+    int[] getPerfectSquares(int n) {
+        int totalSquares = (int) Math.sqrt(n);
+        int[] squares = new int[totalSquares];
+        
+        for(int i = 1; i <= totalSquares; i++) {
+            squares[i-1] = i * i;
+        }
+        
+        return squares;
+    }
+}

@@ -1,0 +1,46 @@
+void add_to_vector(vector<int> &A,int x)
+{
+//Your code here
+A.push_back(x);
+}
+
+/*sort the vector A in ascending order*/
+void sort_vector_asc(vector<int> &A)
+{
+sort(A.begin(), A.end());
+//Your code here
+}
+
+/*reverses the vector A*/
+void reverse_vector(vector<int> &A)
+{
+reverse(A.begin(), A.end());
+//Your code here
+}
+
+/*returns the size of the vector A */
+int size_of_vector(vector<int> &A)
+{
+int x = A.size();
+return x;
+//Your code here
+}
+
+bool myCmp(int a, int b){
+return (a > b);
+}
+
+/*sorts the vector A in descending order*/
+void sort_vector_desc(vector<int> &A)
+{
+sort(A.begin(), A.end(), myCmp);
+//Your code here
+}
+
+/*prints space separated
+elements of vector A*/
+void print_vector(vector<int> &A)
+{
+for(int i=0; i<a.size(); ++i)
+cout<<a[i];
+}
