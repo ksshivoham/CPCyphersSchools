@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.isEmpty()) return res;
+        String[] map = new String[]{"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> digits_str = new ArrayList<>();
+        for (int i = 0; i < digits.length(); i++) {
+            digits_str.add(map[digits.charAt(i) - '2']);
+        }
+        helper(new char[digits.length()], 0, digits_str, 0, res);
+        return res;
+    }
+    
+    private void helper(char[] cur_list, int list_index, List<String> digits_str, int digits_index, List<String> res) {
+        if (list_index == digits_str.size()) {
+            res.add(new String(cur_list));
+            return;
+        }
+        String cur_digit_str = digits_str.get(digits_index);
+        for (int i = 0; i < cur_digit_str.length(); i++) {
+            cur_list[list_index] = cur_digit_str.charAt(i);
+            helper(cur_list, list_index + 1, digits_str, digits_index + 1, res);
+        }
+    }
+}
