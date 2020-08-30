@@ -1,0 +1,56 @@
+class Solution {
+    public void solve(char[][] board) {
+        if (board == null || board.length == 0 ||
+            board[0] == null || board[0].length == 0) return;
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        
+        int[][] dirs = { {0,1}, {1,0}, {0,-1}, {-1,0} };
+        
+        Queue<int[]> q = new LinkedList<>();
+        
+        for (int i = 0; i < m; i++) {
+            if (board[i][0] == 'O') {
+                q.offer(new int[]{i, 0});
+                visited[i][0] = true;
+            }
+            if (board[i][n-1] == 'O') {
+                q.offer(new int[]{i, n-1});
+                visited[i][n-1] = true;
+            }
+        }
+        for (int j = 1; j < n-1; j++) {
+            if (board[0][j] == 'O') {
+                q.offer(new int[]{0, j});
+                visited[0][j] = true;
+            }
+            if (board[m-1][j] == 'O') {
+                q.offer(new int[]{m-1, j});
+                visited[m-1][j] = true;
+            }
+        }
+        
+        while (!q.isEmpty()) {
+            int[] p = q.poll();
+            for (int[] dir : dirs) {
+                int x = p[0] + dir[0];
+                int y = p[1] + dir[1];
+                if (x >= 0 && x < m && y >= 0 && y < n) {
+                    if (board[x][y] == 'O' && !visited[x][y]) {
+                        q.offer(new int[]{x, y});
+                        visited[x][y] = true;
+                    }
+                }
+            }
+        }
+        
+        // whichever O can't be visited will be captured
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O' && !visited[i][j])
+                    board[i][j] = 'X';
+            }
+        }
+    }
+}

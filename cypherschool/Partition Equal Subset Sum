@@ -1,0 +1,39 @@
+class Solution {
+    
+    public boolean dp [][];
+    
+    public boolean canPartition(int[] nums) {
+        if (nums.length == 0)
+            return true;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++)
+            sum += nums [i];
+        if (sum % 2 == 1)
+            return false;
+        else {
+            dp = new boolean [nums.length + 1][sum/2 + 1];
+            return Solve (nums, sum/2);
+        }
+    }
+    
+    public boolean Solve (int arr [], int SUM) {
+        int N = arr.length;
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j <= SUM; j++) {
+                if (i == 0)
+                    dp [i][j] = false;
+                if (j == 0)
+                    dp [i][j] = true;
+            }
+        }
+        for (int n = 1; n <= N; n++) {
+            for (int sum = 1; sum <= SUM; sum++) {
+                if (arr [n-1] <= sum)
+                    dp [n][sum] = dp [n-1][sum - arr [n-1]] || dp [n-1][sum];
+                else
+                    dp [n][sum] = dp [n-1][sum];
+            }
+        }
+        return dp [N][SUM];
+    }
+}

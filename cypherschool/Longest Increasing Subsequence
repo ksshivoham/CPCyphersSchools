@@ -1,0 +1,28 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+         if(nums.length == 0)
+            return 0;
+        int[] memo = new int[nums.length];
+        Arrays.fill(memo, -1);
+        int max = 1;
+        for(int i = 0;i<nums.length;i++) {
+            max = Math.max(max, helper(nums, i, memo));
+        }
+        return max;
+    }
+    
+    protected int helper(int[] nums, int index, int[] memo) {
+        if( index == 0)
+            return 1;
+        if(memo[index] != -1) 
+            return memo[index];
+        int longest = 1;
+        for(int i = index-1;i>=0;i--) {
+            if(nums[i] < nums[index]) {
+                longest = Math.max(longest, helper(nums, i, memo)+1);
+            }
+        }
+        memo[index] = longest;
+        return longest;
+    }
+}

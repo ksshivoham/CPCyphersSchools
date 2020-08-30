@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (inorder.length == 0) {
+            return null;
+        }
+        
+        Map<Integer, Integer> inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
+        
+        return buildTree(inorder, preorder, 0, inorder.length, 0, preorder.length, inorderIndexMap);
+    }
+    
+    private TreeNode buildTree(int[] inorder, int[] preorder, int inorderMin, int inorderMax, int preorderMin, int preorderMax,  Map<Integer, Integer> inorderIndexMap) {
+        if (inorderMin + 1 == inorderMax) {
+            return new TreeNode(inorder[inorderMin]);
+        }
+        
+        int rootValue = preorder[preorderMin];
+        int inorderRootValueIndex = inorderIndexMap.get(rootValue);
+        int leftSubtreeSize = inorderRootValueIndex - inorderMin;
+        int rightSubtreeSize = inorderMax - inorderRootValueIndex - 1;
+        
+        TreeNode leftSubtree = null;
+        TreeNode rightSubtree = null;
+        
+        if (leftSubtreeSize > 0) {
+            leftSubtree = buildTree(inorder, preorder, inorderMin, inorderMin + leftSubtreeSize, preorderMin + 1, preorderMin + 1 + leftSubtreeSize, inorderIndexMap);
+        }
+        if (rightSubtreeSize > 0) {
+            rightSubtree = buildTree(inorder, preorder, inorderRootValueIndex + 1, inorderMax, preorderMin + 1 + leftSubtreeSize, preorderMax, inorderIndexMap);
+        }
+        
+        return new TreeNode(rootValue, leftSubtree, rightSubtree);
+    }
+}
